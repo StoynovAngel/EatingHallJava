@@ -16,7 +16,8 @@ public class InitialMenu implements Menu {
                   \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|
                                                         \s
                 """);
-        System.out.println("1. Get a group");
+        System.out.println("1. Add a group");
+        System.out.println("2. Display specific group.");
         System.out.println("2. Get a user from a group.");
         System.out.println("3. Get a specific grade");
         System.out.println("0. Exit...");
@@ -33,6 +34,10 @@ public class InitialMenu implements Menu {
             switch (choice) {
                 case 1 -> {
                     GroupService.addGroup();
+                    return;
+                }
+                case 2 -> {
+                    GroupService.displaySpecificGroupFromFile();
                     return;
                 }
                 case 0 -> {

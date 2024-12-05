@@ -2,9 +2,11 @@ package services;
 
 import dto.Group;
 import exceptions.GroupAlreadyExists;
+import exceptions.InvalidGroup;
 import exceptions.InvalidUserInput;
 import utils.FileHandler;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ public class GroupService {
         validateGroupUserInput(groupName);
 
         List<Group> loadedGroups = FileHandler.loadAllGroups();
-        validateFileGroupName(loadedGroups, groupName);
+        validateFindFileGroupName(loadedGroups, groupName);
 
         Group newGroup = new Group(groupName);
         FileHandler.saveGroupToFile(newGroup, newGroup.getGroupName() + ".dat");
@@ -29,7 +31,7 @@ public class GroupService {
         }
     }
 
-    private static void validateFileGroupName(List<Group> loadedGroups, String groupName) {
+    private static void validateFindFileGroupName(List<Group> loadedGroups, String groupName) {
         if (doesGroupExist(loadedGroups, groupName)) {
             throw new GroupAlreadyExists("Group with this name already exists.");
         }
@@ -42,5 +44,21 @@ public class GroupService {
             }
         }
         return false;
+    }
+
+    public static void displaySpecificGroupFromFile() {
+        System.out.print("Enter a group name: ");
+        String searchedGroupName = in.nextLine();
+        validateGroupUserInput(searchedGroupName);
+        Group loadedGroup = getSpecificLoadedGroupByName(searchedGroupName);
+        System.out.println(loadedGroup);
+    }
+
+    private static Group getSpecificLoadedGroupByName(String searchedGroupName) {
+        Group loadedGroup = FileHandler.loadGroup(searchedGroupName);
+        if (loadedGroup == null) {
+            throw new InvalidGroup("Group with this name could not be find.");
+        }
+        return loadedGroup;
     }
 }

@@ -22,7 +22,7 @@ public class FileHandler {
     }
 
     public static Group loadGroup(String fileName) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((DIRECTORY + fileName)))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((DIRECTORY + fileName + ".dat")))) {
             return (Group) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Error reading groups from file", e);
