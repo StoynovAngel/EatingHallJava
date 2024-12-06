@@ -13,6 +13,10 @@ public class User implements Serializable {
         this.grades = grades;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     @Override
     public String toString() {
         StringBuilder gradesString = new StringBuilder();

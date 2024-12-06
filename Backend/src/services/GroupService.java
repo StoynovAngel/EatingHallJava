@@ -22,7 +22,7 @@ public class GroupService {
         validateFindFileGroupName(loadedGroups, groupName);
 
         Group newGroup = new Group(groupName);
-        FileHandler.saveGroupToFile(newGroup, newGroup.getGroupName() + ".dat");
+        FileHandler.saveGroupToFile(newGroup, newGroup.getGroupName());
     }
 
     private static void validateGroupUserInput(String groupName) {
