@@ -17,6 +17,10 @@ public class User implements Serializable {
         return username;
     }
 
+    public List<Grade> getGrades() {
+        return grades;
+    }
+
     @Override
     public String toString() {
         StringBuilder gradesString = new StringBuilder();

@@ -23,13 +23,14 @@ public class InitialMenu implements Menu {
 
         while(true) {
             show();
-            System.out.print("Enter your choice (1-3): ");
+            System.out.print("Enter your choice (0-5): ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1 -> GroupService.addGroup();
                 case 2 -> GroupService.displaySpecificGroupFromFile();
                 case 3 -> UserService.displayUserFromSpecificGroup();
-                case 4 -> UserService.displayUsersFromSpecificGroup();
+                case 4 -> UserService.displayAllUsersFromSpecificGroup();
+                case 5 -> UserService.displaySpecificUserGrades();
                 case 0 -> {
                     System.out.println("Exiting the program...");
                     return;
