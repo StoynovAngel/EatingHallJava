@@ -12,10 +12,10 @@ public class FileHandler {
     static {
         createDirectoryIfNotExists();
     }
-    public static void saveGroupToFile(Group group, String fileName) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream((DIRECTORY + fileName + FILE_EXTENSION)))) {
+    public static void saveGroupToFile(Group group) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream((DIRECTORY + group.getGroupName() + FILE_EXTENSION)))) {
             oos.writeObject(group);
-            System.out.println("Group saved to " + (DIRECTORY + fileName));
+            System.out.println("Group saved to " + (DIRECTORY + group.getGroupName()));
         } catch (IOException e) {
             throw new RuntimeException("Error saving group to file", e);
         }

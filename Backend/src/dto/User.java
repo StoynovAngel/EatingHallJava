@@ -1,12 +1,18 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     private String username;
     private List<Grade> grades;
+
+    public User(String username) {
+        this.username = username;
+        this.grades = new ArrayList<>();
+    }
 
     public User(String username, List<Grade> grades) {
         this.username = username;

@@ -13,6 +13,7 @@ public class InitialMenu implements Menu {
         System.out.println("3. Display a user from a group.");
         System.out.println("4. Display users from a group.");
         System.out.println("5. Get a specific grade");
+        System.out.println("6. Add user to a group.");
         System.out.println("0. Exit...");
     }
 
@@ -23,7 +24,7 @@ public class InitialMenu implements Menu {
 
         while(true) {
             show();
-            System.out.print("Enter your choice (0-5): ");
+            System.out.print("Enter your choice (0-6): ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1 -> GroupService.addGroup();
@@ -31,6 +32,7 @@ public class InitialMenu implements Menu {
                 case 3 -> UserService.displayUserFromSpecificGroup();
                 case 4 -> UserService.displayAllUsersFromSpecificGroup();
                 case 5 -> UserService.displaySpecificUserGrades();
+                case 6 -> UserService.addNewUserToGroup();
                 case 0 -> {
                     System.out.println("Exiting the program...");
                     return;

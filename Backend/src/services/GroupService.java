@@ -5,13 +5,11 @@ import exceptions.GroupAlreadyExists;
 import exceptions.InvalidGroup;
 import exceptions.InvalidUserInput;
 import utils.FileHandler;
-
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
 public class GroupService {
-    private static Scanner in = new Scanner(System.in);
+    private static final Scanner in = new Scanner(System.in);
 
     public static void addGroup() {
         System.out.print("Enter group name: ");
@@ -22,7 +20,7 @@ public class GroupService {
         validateFindFileGroupName(loadedGroups, groupName);
 
         Group newGroup = new Group(groupName);
-        FileHandler.saveGroupToFile(newGroup, newGroup.getGroupName());
+        FileHandler.saveGroupToFile(newGroup);
     }
 
     private static void validateGroupUserInput(String groupName) {
