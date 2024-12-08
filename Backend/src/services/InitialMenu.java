@@ -1,11 +1,21 @@
 package services;
 
+import interfaces.IGroup;
+import interfaces.IUser;
 import interfaces.Menu;
+import utils.FileHandler;
 import utils.consoleArt.ConsoleArt;
 
 import java.util.Scanner;
 
 public class InitialMenu implements Menu {
+    private final IUser userService;
+    private final IGroup groupService;
+
+    public InitialMenu(IUser userService, IGroup groupService) {
+        this.userService = userService;
+        this.groupService = groupService;
+    }
     @Override
     public void show() {
         System.out.println("1. Add a group");
@@ -27,12 +37,12 @@ public class InitialMenu implements Menu {
             System.out.print("Enter your choice (0-6): ");
             int choice = scanner.nextInt();
             switch (choice) {
-                case 1 -> GroupService.addGroup();
-                case 2 -> GroupService.displaySpecificGroupFromFile();
-                case 3 -> UserService.displayUserFromSpecificGroup();
-                case 4 -> UserService.displayAllUsersFromSpecificGroup();
-                case 5 -> UserService.displaySpecificUserGrades();
-                case 6 -> UserService.addNewUserToGroup();
+                case 1 -> groupService.addGroup();
+                case 2 -> groupService.displaySpecificGroupFromFile();
+                case 3 -> userService.displayUserFromSpecificGroup();
+                case 4 -> userService.displayAllUsersFromSpecificGroup();
+                case 5 -> userService.displaySpecificUserGrades();
+                case 6 -> userService.addNewUserToGroup();
                 case 0 -> {
                     System.out.println("Exiting the program...");
                     return;

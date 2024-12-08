@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileHandler {
-    private static final String DIRECTORY = "files/";
-    private static final String FILE_EXTENSION = ".dat";
-    static {
+    private final String DIRECTORY = "files/";
+    private final String FILE_EXTENSION = ".dat";
+    {
         createDirectoryIfNotExists();
     }
-    public static void saveGroupToFile(Group group) {
+    public void saveGroupToFile(Group group) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream((DIRECTORY + group.getGroupName() + FILE_EXTENSION)))) {
             oos.writeObject(group);
             System.out.println("Group saved to " + (DIRECTORY + group.getGroupName()));
@@ -20,14 +20,14 @@ public class FileHandler {
             throw new RuntimeException("Error saving group to file", e);
         }
     }
-    public static Group loadGroup(String fileName) {
+    public Group loadGroup(String fileName) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((DIRECTORY + fileName + FILE_EXTENSION)))) {
             return (Group) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Error reading groups from file", e);
         }
     }
-    public static List<Group> loadAllGroups() {
+    public List<Group> loadAllGroups() {
         List<Group> groups = new ArrayList<>();
         File directory = new File(DIRECTORY);
         File[] files = directory.listFiles((dir, name) -> name.endsWith(FILE_EXTENSION));
@@ -45,7 +45,7 @@ public class FileHandler {
         }
         return groups;
     }
-    private static void createDirectoryIfNotExists() {
+    private void createDirectoryIfNotExists() {
         File directory = new File(DIRECTORY);
         if (!directory.exists()) {
             if (directory.mkdirs()) {

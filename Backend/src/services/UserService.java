@@ -6,28 +6,31 @@ import dto.User;
 import exceptions.GroupNotFoundException;
 import exceptions.InvalidUserInput;
 import exceptions.UserNotFoundException;
-import utils.FileHandler;
-
-import java.util.ArrayList;
+import interfaces.IUser;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserService {
-    private static final Scanner in = new Scanner(System.in);
+public class UserService implements IUser {
+    private final Scanner in = new Scanner(System.in);
+    private final FileService fileService;
 
-    public static void displaySpecificUserGrades() {
+    public UserService(FileService fileService) {
+        this.fileService = fileService;
+    }
+
+    public void displaySpecificUserGrades() {
         Group loadedGroup = getSpecificGroupFromFile();
         User user = getSpecificUser(loadedGroup);
         System.out.println(user.getGrades());
     }
 
-    public static void displayUserFromSpecificGroup() {
+    public void displayUserFromSpecificGroup() {
         Group loadedGroup = getSpecificGroupFromFile();
         User user = getSpecificUser(loadedGroup);
         System.out.println(user);
     }
 
-    public static void displayAllUsersFromSpecificGroup() {
+    public void displayAllUsersFromSpecificGroup() {
         Group loadedGroup = getSpecificGroupFromFile();
         List<User> members = loadedGroup.getGroupMembers();
 
@@ -38,10 +41,10 @@ public class UserService {
         }
     }
 
-    private static Group getSpecificGroupFromFile() {
+    private Group getSpecificGroupFromFile() {
         System.out.print("Enter group name: ");
         String searchedGroupName = in.nextLine();
-        Group group = FileHandler.loadGroup(searchedGroupName);
+        Group group = fileService.loadGroup(searchedGroupName);
 
         if (group == null || !group.getGroupName().equals(searchedGroupName)) {
             throw new GroupNotFoundException("Could not find group with the name: " + searchedGroupName);
@@ -50,7 +53,7 @@ public class UserService {
         return group;
     }
 
-    private static User getSpecificUser(Group loadedGroup) {
+    private User getSpecificUser(Group loadedGroup) {
         List<User> usersFromGroup = loadedGroup.getGroupMembers();
         System.out.print("Enter username: ");
         String searchedUsername = in.nextLine();
@@ -62,14 +65,14 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User with username '" + searchedUsername + "' not found."));
     }
 
-    private static void validateUserInput(String username) {
+    private void validateUserInput(String username) {
         if (!username.matches("^[a-zA-Z]{4,}$")) {
             System.out.println("Invalid input. Username must contain only alphabetic characters and be at least 4 letters.");
             throw new InvalidUserInput("Invalid username: " + username);
         }
     }
 
-    public static void addNewUserToGroup() {
+    public void addNewUserToGroup() {
         Group group = getSpecificGroupFromFile();
         List<User> users = group.getGroupMembers();
         User newUser = createUser();
@@ -78,10 +81,10 @@ public class UserService {
         }else {
             System.out.println("This users already exists...");
         }
-        FileHandler.saveGroupToFile(group);
+        fileService.saveGroupToFile(group);
     }
 
-    private static User createUser() {
+    private User createUser() {
         System.out.print("Username: ");
         String username = in.nextLine();
         User user = new User(username);
@@ -99,7 +102,7 @@ public class UserService {
         return user;
     }
 
-    private static Grade addGradeToUser() {
+    private Grade addGradeToUser() {
         System.out.print("Subject: ");
         String subject = in.nextLine();
         System.out.print("Mark: ");

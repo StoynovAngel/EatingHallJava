@@ -1,9 +1,10 @@
+import config.DependencyFactory;
 import services.InitialMenu;
-
 
 public class Main {
     public static void main(String[] args) {
-        InitialMenu initialMenu = new InitialMenu();
-        initialMenu.handleUserChoice();
+        DependencyFactory factory = new DependencyFactory();
+        InitialMenu menu = factory.createInitialMenu();
+        menu.handleUserChoice();
     }
 }
