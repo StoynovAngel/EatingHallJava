@@ -58,6 +58,7 @@ public class UserService implements IUser {
         return group;
     }
 
+    @Override
     public void updateUserGrade() {
         Group specificGroup = getSpecificGroupFromFile();
         User user = getSpecificUser(specificGroup);
@@ -69,10 +70,36 @@ public class UserService implements IUser {
         Grade filteredGrade = grades.stream()
                 .filter(grade -> grade.getSubject().equals(inputSubject))
                 .findFirst()
-                .orElseThrow(() -> new GradeNotFound("No such subject found"));
+                .orElseThrow(() -> new GradeNotFound("No such subject found - " + inputSubject));
 
         gradeService.updateGrade(filteredGrade);
         fileService.saveGroupToFile(specificGroup);
+    }
+
+    @Override
+    public void deleteUserGrade() {
+        Group specificGroup = getSpecificGroupFromFile();
+        User user = getSpecificUser(specificGroup);
+        List<Grade> grades = user.getGrades();
+
+        System.out.println("What grade do you want to change? Write the subject's name: ");
+        String inputSubject = in.nextLine();
+
+        for (Grade grade: grades) {
+            if(grade.getSubject().equals(inputSubject)) {
+                grades.remove(grade);
+                fileService.saveGroupToFile(specificGroup);
+                return;
+            }
+        }
+        throw new GradeNotFound("No such grade found");
+    }
+
+    private List<Grade> getSpecificUserGrades() {
+        Group specificGroup = getSpecificGroupFromFile();
+        User user = getSpecificUser(specificGroup);
+        fileService.saveGroupToFile(specificGroup);
+        return user.getGrades();
     }
 
     private User getSpecificUser(Group loadedGroup) {
@@ -105,6 +132,15 @@ public class UserService implements IUser {
             System.out.println("This users already exists...");
         }
         fileService.saveGroupToFile(group);
+    }
+
+    @Override
+    public void addNewGradeToUser() {
+        Group specificGroup = getSpecificGroupFromFile();
+        User user = getSpecificUser(specificGroup);
+        List<Grade> grades = user.getGrades();
+        gradeService.addGrade(grades);
+        fileService.saveGroupToFile(specificGroup);
     }
 
     private User createUser() {

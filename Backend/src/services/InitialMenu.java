@@ -24,6 +24,8 @@ public class InitialMenu implements Menu {
         System.out.println("5. Get a specific grade");
         System.out.println("6. Add user to a group.");
         System.out.println("7. Update user's grade.");
+        System.out.println("8. Delete user's grade.");
+        System.out.println("9. Add new grade");
         System.out.println("0. Exit...");
     }
 
@@ -44,6 +46,8 @@ public class InitialMenu implements Menu {
                 case 5 -> userService.displaySpecificUserGrades();
                 case 6 -> userService.addNewUserToGroup();
                 case 7 -> userService.updateUserGrade();
+                case 8 -> userService.deleteUserGrade();
+                case 9 -> userService.addNewGradeToUser();
                 case 0 -> {
                     System.out.println("Exiting the program...");
                     return;

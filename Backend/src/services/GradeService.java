@@ -4,6 +4,7 @@ import dto.Grade;
 import dto.User;
 import interfaces.IGrade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,5 +28,15 @@ public class GradeService implements IGrade {
         double mark = in.nextDouble();
         grade.setMark(mark);
 
+    }
+
+    @Override
+    public void addGrade(List<Grade> grades) {
+        System.out.print("Subject: ");
+        String subject = in.nextLine();
+        System.out.print("Mark: ");
+        double mark = in.nextDouble();
+
+        grades.add(new Grade(subject, mark));
     }
 }
