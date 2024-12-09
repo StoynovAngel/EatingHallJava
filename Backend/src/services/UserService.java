@@ -3,6 +3,7 @@ package services;
 import dto.Grade;
 import dto.Group;
 import dto.User;
+import exceptions.GradeNotFound;
 import exceptions.GroupNotFoundException;
 import exceptions.InvalidUserInput;
 import exceptions.UserNotFoundException;
@@ -13,23 +14,27 @@ import java.util.Scanner;
 public class UserService implements IUser {
     private final Scanner in = new Scanner(System.in);
     private final FileService fileService;
+    private final GradeService gradeService = new GradeService();
 
     public UserService(FileService fileService) {
         this.fileService = fileService;
     }
 
+    @Override
     public void displaySpecificUserGrades() {
         Group loadedGroup = getSpecificGroupFromFile();
         User user = getSpecificUser(loadedGroup);
         System.out.println(user.getGrades());
     }
 
+    @Override
     public void displayUserFromSpecificGroup() {
         Group loadedGroup = getSpecificGroupFromFile();
         User user = getSpecificUser(loadedGroup);
         System.out.println(user);
     }
 
+    @Override
     public void displayAllUsersFromSpecificGroup() {
         Group loadedGroup = getSpecificGroupFromFile();
         List<User> members = loadedGroup.getGroupMembers();
@@ -53,6 +58,23 @@ public class UserService implements IUser {
         return group;
     }
 
+    public void updateUserGrade() {
+        Group specificGroup = getSpecificGroupFromFile();
+        User user = getSpecificUser(specificGroup);
+        List<Grade> grades = user.getGrades();
+
+        System.out.println("What grade do you want to change? Write the subject's name: ");
+        String inputSubject = in.nextLine();
+
+        Grade filteredGrade = grades.stream()
+                .filter(grade -> grade.getSubject().equals(inputSubject))
+                .findFirst()
+                .orElseThrow(() -> new GradeNotFound("No such subject found"));
+
+        gradeService.updateGrade(filteredGrade);
+        fileService.saveGroupToFile(specificGroup);
+    }
+
     private User getSpecificUser(Group loadedGroup) {
         List<User> usersFromGroup = loadedGroup.getGroupMembers();
         System.out.print("Enter username: ");
@@ -72,6 +94,7 @@ public class UserService implements IUser {
         }
     }
 
+    @Override
     public void addNewUserToGroup() {
         Group group = getSpecificGroupFromFile();
         List<User> users = group.getGroupMembers();
@@ -89,7 +112,7 @@ public class UserService implements IUser {
         String username = in.nextLine();
         User user = new User(username);
         while (true) {
-            Grade newGrade = addGradeToUser();
+            Grade newGrade = gradeService.addGradeToUser();
             user.getGrades().add(newGrade);
 
             System.out.println("Add another grade? (y/n): ");
@@ -102,12 +125,4 @@ public class UserService implements IUser {
         return user;
     }
 
-    private Grade addGradeToUser() {
-        System.out.print("Subject: ");
-        String subject = in.nextLine();
-        System.out.print("Mark: ");
-        double mark = in.nextDouble();
-        in.nextLine();
-        return new Grade(subject, mark);
-    }
 }

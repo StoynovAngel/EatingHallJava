@@ -3,7 +3,6 @@ package services;
 import interfaces.IGroup;
 import interfaces.IUser;
 import interfaces.Menu;
-import utils.FileHandler;
 import utils.consoleArt.ConsoleArt;
 
 import java.util.Scanner;
@@ -24,6 +23,7 @@ public class InitialMenu implements Menu {
         System.out.println("4. Display users from a group.");
         System.out.println("5. Get a specific grade");
         System.out.println("6. Add user to a group.");
+        System.out.println("7. Update user's grade.");
         System.out.println("0. Exit...");
     }
 
@@ -43,6 +43,7 @@ public class InitialMenu implements Menu {
                 case 4 -> userService.displayAllUsersFromSpecificGroup();
                 case 5 -> userService.displaySpecificUserGrades();
                 case 6 -> userService.addNewUserToGroup();
+                case 7 -> userService.updateUserGrade();
                 case 0 -> {
                     System.out.println("Exiting the program...");
                     return;

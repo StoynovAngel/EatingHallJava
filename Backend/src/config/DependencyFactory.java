@@ -1,9 +1,6 @@
 package config;
 
-import services.FileService;
-import services.GroupService;
-import services.InitialMenu;
-import services.UserService;
+import services.*;
 import utils.FileHandler;
 
 public class DependencyFactory {

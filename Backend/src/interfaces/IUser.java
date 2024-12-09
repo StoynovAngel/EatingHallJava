@@ -5,4 +5,5 @@ public interface IUser {
     void displayUserFromSpecificGroup();
     void displayAllUsersFromSpecificGroup();
     void addNewUserToGroup();
+    void updateUserGrade();
 }

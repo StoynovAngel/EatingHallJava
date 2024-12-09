@@ -1,10 +1,12 @@
 package dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private String username;
     private List<Grade> grades;
@@ -25,6 +27,10 @@ public class User implements Serializable {
 
     public List<Grade> getGrades() {
         return grades;
+    }
+
+    public void setGrades(List<Grade> grades) {
+        this.grades = grades;
     }
 
     @Override

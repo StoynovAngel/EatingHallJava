@@ -17,6 +17,7 @@ public class GroupService implements IGroup {
         this.fileService = fileService;
     }
 
+    @Override
     public void addGroup() {
         System.out.print("Enter group name: ");
         String groupName = in.nextLine();
@@ -50,6 +51,7 @@ public class GroupService implements IGroup {
         return false;
     }
 
+    @Override
     public void displaySpecificGroupFromFile() {
         System.out.print("Enter a group name: ");
         String searchedGroupName = in.nextLine();
